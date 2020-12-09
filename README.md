@@ -1,0 +1,236 @@
+# react-full-stack-blog-site
+
+## Repository for my react-full-stack-blog-site project
+
+Find out how to build an e-commerce platform. Author Melvin Kisten tackles CRUD functions and connects the system to a database of MongoDB (Document database). Created a full-stack platform using JavaScript. The front-end was created using React and the back-end was created using NodeJS, Express, MongoDB. Then I used Axios to link my back-end with my front-end. I also used Postman to test my end points. 
+
+1. Methodologies/Project Management:
+
+   - Agile
+
+2. Coding Practices:
+
+   - MVC (Model View Controller)
+   - OOP (Object Oriented Programming)
+
+3. Programming Languages/Frameworks:
+   - JavaScript
+   - React
+   - NodeJS
+   - Express
+   - MongoDB
+   - Postman
+   - Axios
+
+## Live Demo
+
+- [react-full-stack-blog-site](https://react-full-stack-blog-site.herokuapp.com/ "react-full-stack-blog-site")
+
+## Instructions
+
+1. Make sure you have these installed
+
+   - [NodeJS](https://nodejs.org/en/download/ "NodeJS")
+      - I used LTS node version 14.15.1 and npm version 6.14.8 at time of creation
+   - [MongoDB](https://www.mongodb.com/try/download/community "MongoDB")
+      - I used mongo version 4.4.1 at time of creation
+   - [Postman](https://www.postman.com/downloads/ "Postman")
+      - I used postman version 7.36.0 at time of creation
+
+2. Clone this repository into your local machine using the terminal (mac) or [Gitbash (PC)](https://git-scm.com/download/win "Gitbash (PC)")
+
+   ```
+   > git clone https://github.com/iammelvink/react-full-stack-blog-site.git
+   ```
+
+3. front-end setup (running on port 8080)
+   ```
+   > cd front-end
+   ```
+
+   ```
+   > npm install
+   ```
+
+   Compiles and hot-reloads for development
+   ```
+   > npm run serve
+   ```
+
+4. back-end setup (running on port 8000)
+   ```
+   > cd back-end
+   ```
+
+   ```
+   > npm install
+   ```
+
+   Compiles and hot-reloads for development
+   ```
+   > npm run dev
+   ```
+
+5. Enjoy!
+
+## Deploy for production
+
+1. Make sure you have created accounts at
+
+   - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas/register "MongoDB Atlas")
+   - [Heroku](https://signup.heroku.com/login "Heroku")
+
+2. Then follow ALL step by step
+
+   ```
+   > cd front-end
+   ```
+
+   Building optimized version of front-end
+   ```
+   > npm run build
+   ```
+
+   copy front-end/dist to
+   root of back-end
+
+   then edit back-end/src/server.js for live production hosting
+
+   Needed in production
+
+   ```
+   > cd back-end
+   ```
+
+   ```
+   > npm install connect-history-api-fallback
+   ```
+
+   MongoDB:
+
+   Logging into remote MongoDB server (may need to change the url,
+   as well as in back-end/src/server.js)
+
+   ```
+   > mongo "mongodb+srv://template.mongodb.net/<dbname>" --username <username>
+   ```
+
+   Inserting data into remote MongoDB database
+
+   ```
+   > db.products.insertMany([{}])
+   ```
+
+   ```
+   > db.users.insertOne({ id: '00001', cartItems: [ '001', '002', '003', ] })
+   ```
+
+   Heroku:
+
+   Installing Heroku using npm globally
+
+   ```
+   > npm install -g heroku
+   ```
+
+   Logging into Heroku
+
+   ```
+   > heroku login
+   ```
+
+   ```
+   > cd back-end
+   ```
+
+   Creating a heroku app
+
+   ```
+   > heroku create
+   ```
+
+   Setting environment variables
+   MongoDB username and password for database
+   And name of db
+
+   ```
+   > heroku config:set MONGO_USER=<username> -a <app name>
+   ```
+
+   ```
+   > heroku config:set MONGO_PASS='<password>' -a <app name>
+   ```
+
+   ```
+   > heroku config:set MONGO_DBNAME=<dn name> -a <app name>
+   ```
+
+   Edit MongoDB url in back-end/src/server.js
+
+   Add this to back-end/package.json in "scripts"
+
+   To build an optimized version of the codebase
+   To start the server
+
+   ```
+   "build": "babel ./src --out-dir ./build",
+   "start": "node ./build/server.js",
+   ```
+
+   Deployment to Heroku
+
+   Edit back-end/package.json
+   Add:
+
+   ```
+   "engines": {
+      "node": "0.0.0",
+      "npm": "0.0.0"
+   },
+   ```
+
+   ```
+   > cd back-end
+   ```
+
+   Create .gitignore file
+   Add this
+
+   ONLY in entire file
+
+   ```
+   # Dependency directories
+   node_modules/
+   ```
+
+   OR
+
+   Remove dist from .gitignore file
+
+   ```
+   > git init
+   ```
+
+   ```
+   > heroku git:remote -a <app name>
+   ```
+
+   ```
+   > git add .
+   ```
+
+   ```
+   > git commit -am "initial commit"
+   ```
+
+   ```
+   > git push heroku master
+   ```
+
+   ```
+   > heroku ps:scale web=1
+   ```
+
+## More Stuff
+
+Check out some other stuff on [Melvin K](https://github.com/iammelvink "Melvin K GitHub page").
