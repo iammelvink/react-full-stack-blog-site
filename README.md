@@ -205,7 +205,9 @@ Find out how to build an e-commerce platform. Author Melvin Kisten tackles CRUD 
 
    OR
 
-   Remove dist from .gitignore file
+   ```
+   Remove 'dist' and 'build' from .gitignore file
+   ```
 
    ```
    > git init
