@@ -8,12 +8,15 @@ import bodyParser from 'body-parser';
 const articlesInfo = {
     'learn-react': {
         upvotes: 0,
+        comments: []
     },
     'learn-node': {
         upvotes: 0,
+        comments: []
     },
     'my-thoughts-on-resumes': {
         upvotes: 0,
+        comments: []
     }
 };
 
@@ -55,6 +58,22 @@ app.post('/api/articles/:name/upvote', (req, res) => {
 
     // response
     res.status(200).send(`${articleName} now has ${articlesInfo[articleName].upvotes} upvotes`);
+});
+
+// post method to handle article comments
+app.post('/api/articles/:name/add-comment', (req, res) => {
+    // get username and text of comment
+    const { username, text } = req.body;
+
+    // get name of article
+    const articleName = req.params.name;
+
+    // add to comments array
+    articlesInfo[articleName].comments.push({ username, text });
+
+    // response
+    res.status(200).send(articlesInfo[articleName]);
+
 });
 
 // port that server listens on = port 8000
