@@ -1,24 +1,11 @@
 // to create a server
 import express from 'express';
-
 // to parse body content because node cannot do that on its own
 import bodyParser from 'body-parser';
-
-// fake so called database for article upvotes
-const articlesInfo = {
-    'learn-react': {
-        upvotes: 0,
-        comments: []
-    },
-    'learn-node': {
-        upvotes: 0,
-        comments: []
-    },
-    'my-thoughts-on-resumes': {
-        upvotes: 0,
-        comments: []
-    }
-};
+// to connect to mongodb database
+import {
+    MongoClient
+} from 'mongodb';
 
 // creates an express server
 const app = express();
@@ -47,6 +34,39 @@ res.send sends back a response to our request
 // // using back ticks
 // // for a Template String
 // app.post('/hello', (req, res) => res.send(`Hello ${req.body.name}!`));
+
+app.get('/api/articles/:name', async (req, res) => {
+    try {
+        // get name of article
+        const articleName = req.params.name;
+
+        // connecting to mongodb database using MongoClient
+        const client = await MongoClient.connect(
+            // DO NOT hard code credentials
+            // Use environment variables
+            // Also check if they exist
+            // Else use localhost
+            'mongodb://localhost:27017', { useNewUrlParser: true });
+
+        // connect to specific db
+        // Check if environment variable MONGO_DBNAME is set
+        // Else use local db
+        const db = client.db('blog-site');
+
+        // pull data from specific collection
+        // and convert to an array
+        const articleInfo = await db.collection('articles').findOne({ name: articleName });
+
+        // send response as a json object
+        res.status(200).json(articleInfo);
+
+        // closes connection to database
+        client.close();
+    } catch (error) {
+        // 500 = internal server error
+        res.status(500).json({ message: 'Error connecting to db', error });
+    }
+});
 
 // post method to handle article upvotes
 app.post('/api/articles/:name/upvote', (req, res) => {
