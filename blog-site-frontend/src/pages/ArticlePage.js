@@ -15,6 +15,19 @@ const ArticlePage = ({ match }) => {
      * to update on component refresh
      */
     useEffect(() => {
+        const fetchData = async () => {
+            // fetch the article by name
+            const result = await fetch(`/api/articles/${name}`);
+
+            // constains article info
+            const body = await result.json();
+
+            console.log(body);
+
+            // set articleInfo to what is in the body
+            setArticleInfo(body);
+        }
+        fetchData();
         setArticleInfo({ upvotes: Math.ceil(Math.random() * 10) });
     }, [name]);
 
