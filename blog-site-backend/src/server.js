@@ -104,17 +104,29 @@ app.post('/api/articles/:name/upvote', async (req, res) => {
 
 // post method to handle article comments
 app.post('/api/articles/:name/add-comment', (req, res) => {
-    // get username and text of comment
-    const { username, text } = req.body;
+    withDB(async (db) => {
+        // get username and text of comment
+        const { username, text } = req.body;
 
-    // get name of article
-    const articleName = req.params.name;
+        // get name of article
+        const articleName = req.params.name;
 
-    // add to comments array
-    articlesInfo[articleName].comments.push({ username, text });
+        // pull data from specific collection
+        // and convert to an array
+        const articleInfo = await db.collection('articles').findOne({ name: articleName });
 
-    // response
-    res.status(200).send(articlesInfo[articleName]);
+        // concat new comment to comments array with username and text
+        await db.collection('articles').updateOne({ name: articleName }, {
+            '$set': {
+                comments: articleInfo.comments.concat({ username, text }),
+            },
+        });
+        // get updated comments
+        const updatedArticleInfo = await db.collection('articles').findOne({ name: articleName });
+
+        // send result to the client
+        res.status(200).json(updatedArticleInfo);
+    }, res); // pass the response as an arguement to withDB function to get server errors
 
 });
 
