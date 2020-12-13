@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ArticlesList from '../components/ArticlesList';
+import CommentsList from '../components/CommentsList';
 import NotFoundPage from './NotFoundPage';
 import articleContent from './article-content';
 
@@ -28,7 +29,6 @@ const ArticlePage = ({ match }) => {
             setArticleInfo(body);
         }
         fetchData();
-        setArticleInfo({ upvotes: Math.ceil(Math.random() * 10) });
     }, [name]);
 
     /**
@@ -61,6 +61,9 @@ const ArticlePage = ({ match }) => {
             <p>This post has been upvoted {articleInfo.upvotes} times</p>
             {article.content.map((paragraph, key) => (<p key={key}>{paragraph}</p>
             ))}
+            {/* Dissplay comments from CommentsList component.
+            comments prop */}
+            <CommentsList comments={articleInfo.comments} />
             {/* Display related articles EXCEPT the one that we are on */}
             <h3>Related Articles:</h3>
             <ArticlesList articles={otherArticles} />

@@ -1,4 +1,5 @@
 // to add fetch support to unsupported browsers
+// Internet Explorer
 import 'whatwg-fetch';
 import React from 'react';
 import ReactDOM from 'react-dom';
