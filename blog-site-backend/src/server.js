@@ -69,15 +69,46 @@ app.get('/api/articles/:name', async (req, res) => {
 });
 
 // post method to handle article upvotes
-app.post('/api/articles/:name/upvote', (req, res) => {
-    // get name of article
-    const articleName = req.params.name;
+app.post('/api/articles/:name/upvote', async (req, res) => {
+    try {
+        // get name of article
+        const articleName = req.params.name;
 
-    // upvote the article
-    articlesInfo[articleName].upvotes += 1;
+        // connecting to mongodb database using MongoClient
+        const client = await MongoClient.connect(
+            // DO NOT hard code credentials
+            // Use environment variables
+            // Also check if they exist
+            // Else use localhost
+            'mongodb://localhost:27017', { useNewUrlParser: true });
 
-    // response
-    res.status(200).send(`${articleName} now has ${articlesInfo[articleName].upvotes} upvotes`);
+        // connect to specific db
+        // Check if environment variable MONGO_DBNAME is set
+        // Else use local db
+        const db = client.db('blog-site');
+
+        // pull data from specific collection
+        // and convert to an array
+        const articleInfo = await db.collection('articles').findOne({ name: articleName });
+
+        // increment upvote
+        await db.collection('articles').updateOne({ name: articleName }, {
+            '$set': {
+                upvotes: articleInfo.upvotes + 1,
+            },
+        });
+        // get updated upvote
+        const updatedArticleInfo = await db.collection('articles').findOne({ name: articleName });
+
+        // send result to the client
+        res.status(200).json(updatedArticleInfo);
+
+        // closes connection to database
+        client.close;
+    } catch (error) {
+        // 500 = internal server error
+        res.status(500).json({ message: 'Error connecting to db', error });
+    }
 });
 
 // post method to handle article comments
