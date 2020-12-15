@@ -2,7 +2,7 @@
 
 ## Repository for my react-full-stack-blog-site project
 
-Find out how to build an e-commerce platform. Author Melvin Kisten tackles CRUD functions and connects the system to a database of MongoDB (Document database). Created a full-stack platform using JavaScript. The front-end was created using React and the back-end was created using NodeJS, Express, MongoDB. Then I used Axios to link my back-end with my front-end. I also used Postman to test my end points. 
+Find out how to build an blog site platform. Author Melvin Kisten tackles CRUD functions and connects the system to a database of MongoDB (Document database). Created a full-stack platform using JavaScript. The frontend was created using React and the backend was created using NodeJS, Express, MongoDB. Then I used fetch to link my backend with my frontend. I also used Postman to test my end points. 
 
 1. Methodologies/Project Management:
 
@@ -19,7 +19,6 @@ Find out how to build an e-commerce platform. Author Melvin Kisten tackles CRUD 
    - Express
    - MongoDB
    - Postman
-   - Axios
 
 ## Live Demo
 
@@ -42,9 +41,9 @@ Find out how to build an e-commerce platform. Author Melvin Kisten tackles CRUD 
    > git clone https://github.com/iammelvink/react-full-stack-blog-site.git
    ```
 
-3. front-end setup (running on port 8080)
+3. blog-site-frontend setup (running on port 8080)
    ```
-   > cd front-end
+   > cd blog-site-frontend
    ```
 
    ```
@@ -56,9 +55,9 @@ Find out how to build an e-commerce platform. Author Melvin Kisten tackles CRUD 
    > npm run serve
    ```
 
-4. back-end setup (running on port 8000)
+4. blog-site-backend setup (running on port 8000)
    ```
-   > cd back-end
+   > cd blog-site-backend
    ```
 
    ```
@@ -82,33 +81,49 @@ Find out how to build an e-commerce platform. Author Melvin Kisten tackles CRUD 
 2. Then follow ALL step by step
 
    ```
-   > cd front-end
+   > cd blog-site-frontend
    ```
 
-   Building optimized version of front-end
+   Building optimized version of blog-site-frontend
+
    ```
    > npm run build
    ```
 
-   copy front-end/dist to
-   root of back-end
+   ```
+   copy blog-site-frontend/build to blog-site-backend/src/build
+   ```
 
-   then edit back-end/src/server.js for live production hosting
+   ```
+   then edit blog-site-backend/src/server.js for live production hosting
+   ```
 
    Needed in production
 
    ```
-   > cd back-end
-   ```
-
-   ```
-   > npm install connect-history-api-fallback
+   > cd blog-site-backend
    ```
 
    MongoDB:
 
+   - Create a free cluster
+
+   - Connect and 'Allow Access from Anywhere'
+
+   - Create a Database User
+
+   - Choose a connection method
+      - Connect with the mongo shelll
+   
+   - Choose 'I have the mongo shell installed'
+
+   - Select matching mongo shell version as local version
+
+   - Copy connection string
+      - set '\<dbname>\' to preferred database name
+
    Logging into remote MongoDB server (may need to change the url,
-   as well as in back-end/src/server.js)
+   as well as in blog-site-backend/src/server.js)
 
    ```
    > mongo "mongodb+srv://template.mongodb.net/<dbname>" --username <username>
@@ -117,11 +132,7 @@ Find out how to build an e-commerce platform. Author Melvin Kisten tackles CRUD 
    Inserting data into remote MongoDB database
 
    ```
-   > db.products.insertMany([{}])
-   ```
-
-   ```
-   > db.users.insertOne({ id: '00001', cartItems: [ '001', '002', '003', ] })
+   > db.articles.insert([])
    ```
 
    Heroku:
@@ -139,7 +150,7 @@ Find out how to build an e-commerce platform. Author Melvin Kisten tackles CRUD 
    ```
 
    ```
-   > cd back-end
+   > cd blog-site-backend
    ```
 
    Creating a heroku app
@@ -149,8 +160,7 @@ Find out how to build an e-commerce platform. Author Melvin Kisten tackles CRUD 
    ```
 
    Setting environment variables
-   MongoDB username and password for database
-   And name of db
+   - MongoDB username and password for database and name of db
 
    ```
    > heroku config:set MONGO_USER=<username> -a <app name>
@@ -161,25 +171,23 @@ Find out how to build an e-commerce platform. Author Melvin Kisten tackles CRUD 
    ```
 
    ```
-   > heroku config:set MONGO_DBNAME=<dn name> -a <app name>
+   > heroku config:set MONGO_DBNAME=<dbname> -a <app name>
    ```
 
-   Edit MongoDB url in back-end/src/server.js
+   - Edit MongoDB url in blog-site-backend/src/server.js
 
-   Add this to back-end/package.json in "scripts"
+   - Add this to blog-site-backend/package.json in "scripts"
 
-   To build an optimized version of the codebase
    To start the server
 
    ```
-   "build": "babel ./src --out-dir ./build",
-   "start": "node ./build/server.js",
+   "start": "npx nodemon --exec npx babel-node src/server.js",
    ```
 
    Deployment to Heroku
 
-   Edit back-end/package.json
-   Add:
+   - Edit blog-site-backend/package.json
+   - Add:
 
    ```
    "engines": {
@@ -188,8 +196,24 @@ Find out how to build an e-commerce platform. Author Melvin Kisten tackles CRUD 
    },
    ```
 
+   - In blog-site-backend/package.json
+   - Cut all devDependencies
+
    ```
-   > cd back-end
+   "devDependencies": {
+
+    }
+   ```
+   Paste all devDependencies in dependencies
+
+   ```
+   "dependencies": {
+
+    },
+   ```
+
+   ```
+   > cd blog-site-backend
    ```
 
    Create .gitignore file

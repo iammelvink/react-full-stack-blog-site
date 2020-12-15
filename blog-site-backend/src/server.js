@@ -1,20 +1,25 @@
 // to create a server
 import express from 'express';
-// to parse body content because node cannot do that on its own
-import bodyParser from 'body-parser';
 // to connect to mongodb database
 import {
     MongoClient
 } from 'mongodb';
+import path from 'path';
 
 // creates an express server
 const app = express();
 
-/*
-adds a body property to our req argument
-for our callbacks
-*/
-app.use(bodyParser.json());
+// tell express where to find the front end of the website
+app.use(express.static(path.join(__dirname, '/build')));
+
+/**
+ * adds a body property to our req argument
+ * for our callbacks
+ * Mat555Webdev showed me this.
+ * No need for body-parser anymore.
+ */
+app.use(express.json());
+// app.use(bodyParser.json());
 
 // function for db setup and operations
 const withDB = async (operations, res) => {
@@ -26,12 +31,17 @@ const withDB = async (operations, res) => {
             // Use environment variables
             // Also check if they exist
             // Else use localhost
-            'mongodb://localhost:27017', { useNewUrlParser: true });
+            process.env.MONGO_USER && process.env.MONGO_PASS ?
+                `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.yalnp.mongodb.net/${process.env.MONGO_DBNAME}?retryWrites=true&w=majority` :
+                'mongodb://localhost:27017', {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
 
         // connect to specific db
         // Check if environment variable MONGO_DBNAME is set
         // Else use local db
-        const db = client.db('blog-site');
+        const db = client.db(process.env.MONGO_DBNAME || 'blog-site');
 
         // passing the rest of the db ops via the operations arguement
         await operations(db);
@@ -130,6 +140,17 @@ app.post('/api/articles/:name/add-comment', (req, res) => {
 
 });
 
+/**
+ * For live production hosting
+ * redirect all routes NOT handled by our api
+ * to /build/index.html
+ */
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/build/index.html'));
+})
+
 // port that server listens on = port 8000
 // Use environment variable or port 8000
-app.listen(8000, () => console.log('Listening on port 8000'));
+app.listen(process.env.PORT || 8000, () => {
+    console.log('Server is listening on port 8000');
+})
