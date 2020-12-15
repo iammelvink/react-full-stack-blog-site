@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ArticlesList from '../components/ArticlesList';
 import CommentsList from '../components/CommentsList';
 import UpvotesSection from '../components/UpvotesSection';
+import AddCommentForm from '../components/AddCommentForm';
 import NotFoundPage from './NotFoundPage';
 import articleContent from './article-content';
 
@@ -39,7 +40,7 @@ const ArticlePage = ({ match }) => {
      */
     const [articleInfo, setArticleInfo] = useState({ upvotes: 0, comments: [] });
 
-    // temp fix for non-existent article
+    // for non-existent article
     if (!article) return <NotFoundPage />
     const otherArticles = articleContent.filter(article => article.name !== name);
 
@@ -67,9 +68,13 @@ const ArticlePage = ({ match }) => {
             {article.content.map((paragraph, key) => (<p key={key}>{paragraph}</p>
             ))}
 
-            {/* Dissplay comments from CommentsList component.
+            {/* Display comments from CommentsList component.
             comments prop */}
             <CommentsList comments={articleInfo.comments} />
+
+            {/* Display AddCommentForm from AddCommentForm component.
+            comments prop */}
+            <AddCommentForm articleName={name} setArticleInfo={setArticleInfo} />
 
             {/* Display related articles EXCEPT the one that we are on */}
             <h3>Related Articles:</h3>

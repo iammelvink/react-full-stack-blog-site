@@ -18,13 +18,27 @@ const UpvotesSection = ({ articleName, upvotes, setArticleInfo }) => {
     }
 
     return (
-        <div id="upvotes-section">
-            {/* button to upvote an article */}
-            <button onClick={() => upvoteArticle()}>Add Upvote</button>
+        /**
+         * React fragments enables a component to
+         * return multiple elements at the same level
+         * Long hand/way
+         * < React.Fragment >
+         * </React.Fragment>
+         *
+         * Short hand/way
+         * <>
+         * </>
+         */
 
-            {/* Display article upvotes */}
-            <p>This post has been upvoted {upvotes} times</p>
-        </div>
+        <>
+            <div id="upvotes-section">
+                {/* button to upvote an article */}
+                <button onClick={() => upvoteArticle()}>Add Upvote</button>
+
+                {/* Display article upvotes */}
+                <p>This post has been upvoted {upvotes} times</p>
+            </div>
+        </>
     );
 }
 
