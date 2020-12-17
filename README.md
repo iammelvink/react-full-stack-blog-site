@@ -41,7 +41,7 @@ Find out how to build an blog site platform. Author Melvin Kisten tackles CRUD f
    > git clone https://github.com/iammelvink/react-full-stack-blog-site.git
    ```
 
-3. blog-site-frontend setup (running on port 8080)
+3. blog-site-frontend setup (running on port 3000)
    ```
    > cd blog-site-frontend
    ```
@@ -52,7 +52,7 @@ Find out how to build an blog site platform. Author Melvin Kisten tackles CRUD f
 
    Compiles and hot-reloads for development
    ```
-   > npm run serve
+   > npm run start
    ```
 
 4. blog-site-backend setup (running on port 8000)
@@ -64,12 +64,31 @@ Find out how to build an blog site platform. Author Melvin Kisten tackles CRUD f
    > npm install
    ```
 
-   Compiles and hot-reloads for development
+5. Insert data into the MongoDB database
+   - Start MongoDB server
+      ```
+      > mongod
+      ```
+
+   - Enter mongo shell
+      ```
+      > mongo
+      ```
+
+   - Insert data into the MongoDB database
+      ```
+      > db.articles.insert([ 
+         { name: 'learn-react', upvotes: 0, comments: [], }, 
+         { name: 'learn-node', upvotes: 0, comments: [], }, 
+         { name: 'my-thoughts-on-resumes', upvotes: 0, comments: [], }, ])
+      ```
+
+6. Compiles and hot-reloads for development
    ```
-   > npm run dev
+   > npm run start
    ```
 
-5. Enjoy!
+7. Enjoy!
 
 ## Deploy for production
 
@@ -132,7 +151,10 @@ Find out how to build an blog site platform. Author Melvin Kisten tackles CRUD f
    Inserting data into remote MongoDB database
 
    ```
-   > db.articles.insert([])
+   > db.articles.insert([ 
+      { name: 'learn-react', upvotes: 0, comments: [], }, 
+      { name: 'learn-node', upvotes: 0, comments: [], }, 
+      { name: 'my-thoughts-on-resumes', upvotes: 0, comments: [], }, ])
    ```
 
    Heroku:
