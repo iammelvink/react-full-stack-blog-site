@@ -21,7 +21,7 @@
   "author": "Melvin Kisten",
   "license": "GPL-2.0",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "mongodb": "^3.6.3"
   },
   "devDependencies": {
